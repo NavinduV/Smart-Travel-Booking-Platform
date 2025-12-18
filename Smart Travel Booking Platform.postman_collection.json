@@ -1,0 +1,696 @@
+{
+	"info": {
+		"_postman_id": "157b76ae-b3a8-413e-ae50-164d59436a32",
+		"name": "Smart Travel Booking Platform",
+		"description": "Complete API collection for Smart Travel Booking Platform microservices demonstrating Feign Client, WebClient, and REST API communication patterns",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14921304"
+	},
+	"item": [
+		{
+			"name": "User Service (Port 8091)",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"navindu_gunawardhana\",\n  \"email\": \"navindu@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Navindu\",\n  \"lastName\": \"Gunawardhana\",\n  \"phoneNumber\": \"+94762987976\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8091/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"users"
+							]
+						},
+						"description": "Creates a new user in the system"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/users/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						},
+						"description": "Retrieves user details by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flight Service (Port 8092)",
+			"item": [
+				{
+					"name": "Create Flight",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"flightNumber\": \"EK762\",\n  \"airline\": \"Emirates\",\n  \"origin\": \"Colombo (CMB)\",\n  \"destination\": \"Singapore (SIN)\",\n  \"departureTime\": \"2025-12-20T22:45:00\",\n  \"arrivalTime\": \"2025-12-21T05:10:00\",\n  \"price\": 68500.00,\n  \"totalSeats\": 220,\n  \"availableSeats\": 220,\n  \"status\": \"SCHEDULED\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8092/api/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"flights"
+							]
+						},
+						"description": "Creates a new flight"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Flight by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8092/api/flights/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"flights",
+								"1"
+							]
+						},
+						"description": "Get flight details - Check availableSeats after booking"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Flights",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/api/flights/search?origin=Colombo (CMB)&destination=Singapore (SIN)&startDate=2025-12-19T00:00:00&endDate=2025-12-22T23:59:59&requiredSeats=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"flights",
+								"search"
+							],
+							"query": [
+								{
+									"key": "origin",
+									"value": "Colombo (CMB)"
+								},
+								{
+									"key": "destination",
+									"value": "Singapore (SIN)"
+								},
+								{
+									"key": "startDate",
+									"value": "2025-12-19T00:00:00"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-22T23:59:59"
+								},
+								{
+									"key": "requiredSeats",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Hotel Service (Port 8093)",
+			"item": [
+				{
+					"name": "Create Hotel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jetwing Blue Negombo\",\n  \"address\": \"Ethukala, Negombo\",\n  \"city\": \"Negombo\",\n  \"country\": \"Sri Lanka\",\n  \"starRating\": 4.5,\n  \"description\": \"Beachfront resort offering modern comfort and ocean views\",\n  \"amenities\": \"WiFi, Beach Access, Pool, Gym, Bar, Restaurant\",\n  \"pricePerNight\": 18500.00,\n  \"totalRooms\": 120,\n  \"availableRooms\": 120,\n  \"isActive\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8093/api/hotels",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"hotels"
+							]
+						},
+						"description": "Creates a new hotel"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Hotel by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/api/hotels/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"hotels",
+								"1"
+							]
+						},
+						"description": "Get hotel details - Check availableRooms after booking"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Hotels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/api/hotels/search?city=Negombo&maxPrice=20000&requiredRooms=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"hotels",
+								"search"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Negombo"
+								},
+								{
+									"key": "maxPrice",
+									"value": "20000"
+								},
+								{
+									"key": "requiredRooms",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking Service (Port 8094)",
+			"item": [
+				{
+					"name": "Create Complete Booking",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"flightId\": 1,\n  \"hotelId\": 1,\n  \"numberOfPassengers\": 2,\n  \"numberOfRooms\": 1,\n  \"checkInDate\": \"2025-12-19\",\n  \"checkOutDate\": \"2025-12-27\",\n  \"specialRequests\": \"Late check-in required\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8094/api/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8094",
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "Creates complete booking - Demonstrates:\n1. WebClient to User Service (validation)\n2. Feign Client to Flight Service (booking)\n3. Feign Client to Hotel Service (booking)\n4. WebClient to Notification Service (confirmation)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8094/api/bookings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8094",
+							"path": [
+								"api",
+								"bookings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking by Reference",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8094/api/bookings/reference/BK1766015694640",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8094",
+							"path": [
+								"api",
+								"bookings",
+								"reference",
+								"BK1766015694640"
+							]
+						},
+						"description": "Use actual booking reference from Create Booking response"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8094/api/bookings/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8094",
+							"path": [
+								"api",
+								"bookings",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Booking",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8094/api/bookings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8094",
+							"path": [
+								"api",
+								"bookings",
+								"1"
+							]
+						},
+						"description": "Cancels booking - Releases flight seats and hotel rooms"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment Service (Port 8095)",
+			"item": [
+				{
+					"name": "Process Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bookingId\": 1,\n  \"userId\": 2,\n  \"amount\": 215000.00,\n  \"paymentMethod\": \"CREDIT_CARD\",\n  \"cardNumber\": \"2111114111156111\",\n  \"cardHolderName\": \"Navindu Virajitha\",\n  \"expiryMonth\": \"10\",\n  \"expiryYear\": \"2026\",\n  \"cvv\": \"328\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8095/api/payments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"api",
+								"payments"
+							]
+						},
+						"description": "Process payment - Uses WebClient to call Booking Service"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payment by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/api/payments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"api",
+								"payments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking Payments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/api/payments/booking/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"api",
+								"payments",
+								"booking",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification Service (Port 8096)",
+			"item": [
+				{
+					"name": "Send Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 2,\n  \"userEmail\": \"navindu2@example.com\",\n  \"type\": \"BOOKING_CONFIRMATION\",\n  \"subject\": \"Booking Confirmed\",\n  \"message\": \"Your Booking has been Confirmed. Thank You!\",\n  \"bookingReference\": \"BK1766015694640\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8096/api/notifications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8096",
+							"path": [
+								"api",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8096/api/notifications/user/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8096",
+							"path": [
+								"api",
+								"notifications",
+								"user",
+								"1"
+							]
+						},
+						"description": "Verify booking confirmation notification was sent"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notification by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8096/api/notifications/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8096",
+							"path": [
+								"api",
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Endpoint Health Check",
+			"item": [
+				{
+					"name": "User Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8091/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8091",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Flight Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8092/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Hotel Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8093/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8094/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8094",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Payment Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Notification Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8096/actuator/health",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8096",
+							"path": [
+								"actuator",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

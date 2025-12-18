@@ -1,0 +1,64 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BookingServiceApplication<Booking-Service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Smart.Travel.Booking.Platform.Booking.Service.BookingServiceApplication",
+            "projectName": "Booking-Service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UserServiceApplication<User-Service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Smart.Travel.Booking.Platform.User.Service.UserServiceApplication",
+            "projectName": "User-Service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-FlightServiceApplication<Flight-Service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Smart.Travel.Booking.Platform.Flight.Service.FlightServiceApplication",
+            "projectName": "Flight-Service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-HotelServiceApplication<Hotel-Service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Smart.Travel.Booking.Platform.Hotel.Service.HotelServiceApplication",
+            "projectName": "Hotel-Service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PaymentServiceApplication<Payment-Service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Smart.Travel.Booking.Platform.Payment.Service.PaymentServiceApplication",
+            "projectName": "Payment-Service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-NotificationServiceApplication<Notification-Service>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Smart.Travel.Booking.Platform.Notification.Service.NotificationServiceApplication",
+            "projectName": "Notification-Service",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
