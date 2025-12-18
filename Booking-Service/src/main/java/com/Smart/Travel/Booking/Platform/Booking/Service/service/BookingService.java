@@ -35,7 +35,7 @@ public class BookingService {
     public BookingDTO createBooking(CreateBookingRequest request) {
         log.info("Creating booking for user: {}", request.getUserId());
 
-        // Step 1: Validate user using WebClient
+        // Validate user using WebClient
         Boolean isUserValid = userServiceClient.validateUser(request.getUserId()).block();
         if (isUserValid == null || !isUserValid) {
             throw new BookingException("User validation failed. User ID: " + request.getUserId() + " is not valid or inactive");
@@ -51,7 +51,7 @@ public class BookingService {
         FlightDTO flight = null;
         HotelDTO hotel = null;
 
-        // Step 2: Check flight availability using Feign Client
+        // Flight availability check using Feign Client
         if (request.getFlightId() != null) {
             try {
                 FlightAvailabilityResponse flightAvailability = flightServiceClient.checkAvailability(
@@ -73,7 +73,7 @@ public class BookingService {
             }
         }
 
-        // Step 3: Check hotel availability using Feign Client
+        // hotel availability check using Feign Client
         if (request.getHotelId() != null) {
             try {
                 HotelAvailabilityResponse hotelAvailability = hotelServiceClient.checkAvailability(
@@ -106,10 +106,10 @@ public class BookingService {
             }
         }
 
-        // Step 4: Calculate total cost
+        // Calculate total cost
         BigDecimal totalAmount = flightCost.add(hotelCost);
 
-        // Step 5: Save booking with status PENDING
+        // Save booking
         Booking booking = Booking.builder()
                 .userId(request.getUserId())
                 .flightId(request.getFlightId())
@@ -128,7 +128,7 @@ public class BookingService {
         Booking savedBooking = bookingRepository.save(booking);
         log.info("Booking created with reference: {}", savedBooking.getBookingReference());
 
-        // Book the flight and hotel seats/rooms
+        // Book the flight and hotel
         try {
             if (request.getFlightId() != null) {
                 flightServiceClient.bookSeats(request.getFlightId(), 
@@ -145,7 +145,7 @@ public class BookingService {
             throw new BookingException("Failed to book resources: " + e.getMessage());
         }
 
-        // Step 7: Send notification using WebClient
+        // Send notification
         try {
             String message = String.format(
                     "Dear %s %s, your booking %s has been created successfully. Total amount: $%s",
@@ -161,7 +161,6 @@ public class BookingService {
             ).subscribe();
         } catch (Exception e) {
             log.warn("Failed to send notification: {}", e.getMessage());
-            // Don't fail the booking if notification fails
         }
 
         return mapToDTO(savedBooking);
@@ -180,7 +179,6 @@ public class BookingService {
         booking.setStatus(BookingStatus.CONFIRMED);
         Booking confirmedBooking = bookingRepository.save(booking);
 
-        // Send confirmation notification
         try {
             UserDTO user = userServiceClient.getUserById(booking.getUserId()).block();
             if (user != null) {
@@ -217,7 +215,6 @@ public class BookingService {
             throw new BookingException("Cannot cancel a completed booking");
         }
 
-        // Release booked resources
         try {
             if (booking.getFlightId() != null) {
                 flightServiceClient.releaseSeats(booking.getFlightId(), 
@@ -229,13 +226,11 @@ public class BookingService {
             }
         } catch (FeignException e) {
             log.error("Error releasing resources: {}", e.getMessage());
-            // Continue with cancellation even if resource release fails
         }
 
         booking.setStatus(BookingStatus.CANCELLED);
         Booking cancelledBooking = bookingRepository.save(booking);
 
-        // Send cancellation notification
         try {
             UserDTO user = userServiceClient.getUserById(booking.getUserId()).block();
             if (user != null) {
