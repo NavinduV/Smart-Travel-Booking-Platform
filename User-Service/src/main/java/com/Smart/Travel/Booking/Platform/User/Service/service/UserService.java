@@ -35,7 +35,7 @@ public class UserService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
-                .password(request.getPassword()) // In production, this should be encrypted
+                .password(request.getPassword()) // TODO: encrypt
                 .isActive(true)
                 .build();
 
@@ -99,7 +99,7 @@ public class UserService {
             user.setPhoneNumber(request.getPhoneNumber());
         }
         if (request.getPassword() != null) {
-            user.setPassword(request.getPassword()); // In production, this should be encrypted
+            user.setPassword(request.getPassword()); // TODO: encrypt
         }
 
         User updatedUser = userRepository.save(user);

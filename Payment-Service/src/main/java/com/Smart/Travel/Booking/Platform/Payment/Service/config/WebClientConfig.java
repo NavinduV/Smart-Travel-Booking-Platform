@@ -15,7 +15,7 @@ public class WebClientConfig {
     @Bean
     public WebClient bookingServiceWebClient(WebClient.Builder builder) {
         return builder
-                .baseUrl("${services.booking.url:http://localhost:8084}")
+                .baseUrl("${services.booking.url:http://localhost:8094}")
                 .build();
     }
 }

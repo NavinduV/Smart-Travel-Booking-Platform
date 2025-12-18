@@ -50,9 +50,8 @@ public class NotificationService {
 
         Notification savedNotification = notificationRepository.save(notification);
 
-        // Simulate sending notification (email, SMS, push notification, etc.)
+        // Send notification
         try {
-            // In a real system, this would call an email service, SMS gateway, or push notification service
             simulateSendNotification(savedNotification);
             
             savedNotification.setStatus(NotificationStatus.SENT);
@@ -68,7 +67,6 @@ public class NotificationService {
             savedNotification.setFailureReason(e.getMessage());
             notificationRepository.save(savedNotification);
             
-            // Still return the notification (it can be retried later)
             return mapToDTO(savedNotification);
         }
     }
@@ -186,26 +184,17 @@ public class NotificationService {
     }
 
     private void simulateSendNotification(Notification notification) {
-        // Simulate notification sending
-        // In a real system, this would:
-        // 1. Send email using JavaMailSender or email service (SendGrid, AWS SES, etc.)
-        // 2. Send SMS using Twilio or similar
-        // 3. Send push notification using Firebase or similar
-        
         log.info("Simulating notification send: Type={}, To={}, Subject={}", 
                 notification.getType(), 
                 notification.getUserEmail() != null ? notification.getUserEmail() : "User#" + notification.getUserId(),
                 notification.getSubject());
         
-        // Simulate some processing time
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
         
-        // In a real system, we might throw an exception here to simulate failures
-        // For demo purposes, we'll just log success
         log.info("Notification simulation completed successfully");
     }
 

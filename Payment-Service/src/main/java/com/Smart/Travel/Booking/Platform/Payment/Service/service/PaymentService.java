@@ -30,19 +30,19 @@ public class PaymentService {
     public PaymentDTO processPayment(CreatePaymentRequest request) {
         log.info("Processing payment for booking: {}", request.getBookingId());
 
-        // Verify booking exists using WebClient
+        // Verify booking
         BookingDTO booking = bookingServiceClient.getBookingById(request.getBookingId()).block();
         if (booking == null) {
             throw new PaymentException("Booking not found with id: " + request.getBookingId());
         }
 
-        // Verify amount matches booking total
+        // Verify amount
         if (request.getAmount().compareTo(booking.getTotalAmount()) != 0) {
             log.warn("Payment amount {} does not match booking total {}", 
                     request.getAmount(), booking.getTotalAmount());
         }
 
-        // Create payment record with PENDING status
+        // Create payment
         Payment payment = Payment.builder()
                 .bookingId(request.getBookingId())
                 .userId(request.getUserId())
@@ -55,21 +55,18 @@ public class PaymentService {
         Payment savedPayment = paymentRepository.save(payment);
         log.info("Payment created with transaction ID: {}", savedPayment.getTransactionId());
 
-        // Simulate payment processing
+        // Process payment
         try {
-            // In a real system, this would call a payment gateway
             savedPayment.setStatus(PaymentStatus.PROCESSING);
             paymentRepository.save(savedPayment);
 
-            // Simulate processing time and success
-            Thread.sleep(100); // Simulated delay
+            Thread.sleep(100);
 
-            // Mark payment as completed
             savedPayment.setStatus(PaymentStatus.COMPLETED);
             savedPayment.setPaymentDate(LocalDateTime.now());
             Payment completedPayment = paymentRepository.save(savedPayment);
 
-            // Update booking with payment ID using WebClient
+            // Update booking
             try {
                 bookingServiceClient.updateBookingPaymentId(
                         request.getBookingId(), 
@@ -110,7 +107,6 @@ public class PaymentService {
             throw new PaymentException("Refund amount cannot exceed payment amount");
         }
 
-        // Process refund
         payment.setStatus(PaymentStatus.REFUNDED);
         payment.setDescription(payment.getDescription() + " | Refund reason: " + request.getReason());
         Payment refundedPayment = paymentRepository.save(payment);

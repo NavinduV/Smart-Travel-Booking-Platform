@@ -15,14 +15,14 @@ public class WebClientConfig {
     @Bean
     public WebClient userServiceWebClient(WebClient.Builder builder) {
         return builder
-                .baseUrl("${services.user.url:http://localhost:8081}")
+                .baseUrl("${services.user.url:http://localhost:8091}")
                 .build();
     }
 
     @Bean
     public WebClient notificationServiceWebClient(WebClient.Builder builder) {
         return builder
-                .baseUrl("${services.notification.url:http://localhost:8086}")
+                .baseUrl("${services.notification.url:http://localhost:8096}")
                 .build();
     }
 }
